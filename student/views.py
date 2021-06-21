@@ -98,7 +98,7 @@ def start_exam_view(request,pk):
     questions = questions = exam.question.all()
     if request.method=='POST':
         pass
-    response= render(request,'student/start_exam.html',{'exam': exam,'questions': questions})
+    response= render(request,'student/start_exam.html',{'exam': exam, 'questions': questions})
     response.set_cookie('exam_id',exam.id)
     return response
 
@@ -106,6 +106,7 @@ def start_exam_view(request,pk):
 @login_required(login_url='studentlogin')
 @user_passes_test(is_student)
 def calculate_marks_view(request):
+    print(request.COOKIES)
     if request.COOKIES.get('exam_id') is not None:
         exam_id = request.COOKIES.get('exam_id')
         exam = QMODEL.Exam.objects.get(id=exam_id)
@@ -114,16 +115,18 @@ def calculate_marks_view(request):
         questions = exam.question.all()
         i = 0
         for q in questions:
-            
-            selected_ans = request.COOKIES.get(str(i+1))
+            selected_ans = request.COOKIES.get(str(i+1))[-1]
+            print(selected_ans, q.answer)
             actual_answer = q.answer
-            if selected_ans == actual_answer:
+            if int(selected_ans) == int(actual_answer):
                 total_marks = total_marks + q.mark
-        student = models.Student.objects.get(user_id=request.user.id)
+
+        student = request.user.student
         result = QMODEL.Result()
         result.marks = total_marks
         result.exam = exam
         result.student = student
+        print(total_marks, result)
         result.save()
 
         resultObj = Result()
