@@ -1,0 +1,58 @@
+{% extends 'quiz/adminbase.html' %}
+{% block content %}
+{%load static%}
+
+<head>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+  <style media="screen">
+    a:link {
+      text-decoration: none;
+    }
+
+    h6 {
+      text-align: center;
+    }
+
+    .row {
+      margin: 100px;
+    }
+  </style>
+</head>
+<br><br>
+<div class="container">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h6 class="panel-title">Questions</h6>
+    </div>
+
+    <table class="table table-hover" id="dev-table">
+      <tr>
+        <td><b>Question Title: </b></td>
+        <td colspan="2">{{question.question}}</td>
+      </tr>
+      <tr>
+        <td><b>Options: </b></td>
+        <td colspan="2">
+          <ol>
+            <li>{{question.option1}}</li>
+            <li>{{question.option2}}</li>
+            <li>{{question.option3}}</li>
+            <li>{{question.option4}}</li>
+          </ol>
+        </td>
+      </tr>
+      <tr>
+        <td><b>Mark</b></td>
+        <td><td>{{question.mark}}</td></td>
+        <td><a class="btn btn-primary btn-xs" href="{% url 'delete-question' question.id  %}"><span
+          class="glyphicon glyphicon-trash"></span></a></td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<br><br><br><br><br><br>
+{% endblock content %}
