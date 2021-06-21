@@ -3,15 +3,15 @@
 ---
 ## screenshots
 ### Homepage
-![homepage snap](https://github.com/sumitkumar1503/onlinequiz/blob/master/static/screenshots/homepage.png?raw=true)
+![homepage snap](https://github.com/ahadsheikh/quizapp/blob/main/static/screenshots/homepage.png?raw=true)
 ### Admin Dashboard
-![dashboard snap](https://github.com/sumitkumar1503/onlinequiz/blob/master/static/screenshots/adminhomepage.png?raw=true)
+![dashboard snap](https://github.com/ahadsheikh/quizapp/blob/main/static/screenshots/adminhomepage.png?raw=true)
 ### Exam Rules
-![invoice snap](https://github.com/sumitkumar1503/onlinequiz/blob/master/static/screenshots/rules.png?raw=true)
+![invoice snap](https://github.com/ahadsheikh/quizapp/blob/main/static/screenshots/rules.png?raw=true)
 ### Exam
-![doctor snap](https://github.com/sumitkumar1503/onlinequiz/blob/master/static/screenshots/exam.png?raw=true)
+![doctor snap](https://github.com/ahadsheikh/quizapp/blob/main/static/screenshots/exam.png?raw=true)
 ### Teacher
-![doctor snap](https://github.com/sumitkumar1503/onlinequiz/blob/master/static/screenshots/teacher.png?raw=true)
+![doctor snap](https://github.com/ahadsheikh/quizapp/blob/main/static/screenshots/teacher.png?raw=true)
 ---
 ## Functions
 ### Admin
@@ -62,7 +62,7 @@ http://127.0.0.1:8000/
 ```
 
 ## CHANGES REQUIRED FOR CONTACT US PAGE
-- In settins.py file, You have to give your email and password
+- In settings.py file, You have to give your email and password
 ```
 EMAIL_HOST_USER = 'youremail@gmail.com'
 EMAIL_HOST_PASSWORD = 'your email password'
@@ -75,5 +75,4 @@ EMAIL_RECEIVING_USER = 'youremail@gmail.com'
 
 ## Feedback
 Any suggestion and feedback is welcome. You can message me on facebook
-- [Contact on Facebook](https://fb.com/sumit.luv)
-- [Subscribe my Channel LazyCoder On Youtube](https://youtube.com/lazycoders)
+- [Contact on Facebook](https://fb.com/ahadsplanet)
