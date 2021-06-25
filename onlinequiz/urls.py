@@ -55,5 +55,6 @@ urlpatterns = [
     path('view-question/<int:pk>', views.view_question_view,name='view-question'),
     path('delete-question/<int:pk>', views.delete_question_view,name='delete-question'),
 
-
+    # Results 
+    
 ]

@@ -10,11 +10,12 @@ from django.db.models import Q
 from django.core.mail import send_mail
 from teacher import models as TMODEL
 from student import models as SMODEL
+from quiz import models as QMODEL
 from teacher import forms as TFORM
 from student import forms as SFORM
 from django.contrib.auth.models import User
 
-from core.database.models import Result, User as OracleUser, Teacher, Student, Exam, Subject
+from core.database.models import Question, Result, User as OracleUser, Teacher, Student, Exam, Subject
 
 
 def home_view(request):
@@ -346,7 +347,24 @@ def admin_add_question_view(request):
         questionForm=forms.QuestionForm(request.POST)
         if questionForm.is_valid():
             question=questionForm.save()
-            question.save()       
+            question.save()  
+
+            # Oracle data creation
+            quesObj = Question()
+            quesObj.create(
+                {
+                    'id': question.id,
+                    'name': question.question,
+                    'mark': question.mark,
+                    'opt1': question.option1,
+                    'opt2': question.option2,
+                    'opt3': question.option3,
+                    'opt4': question.option4,
+                    'answer': question.answer
+                }
+            )
+            quesObj.close()
+                 
             return HttpResponseRedirect('/admin-view-question')
         else:
             print("form is invalid")
@@ -367,13 +385,21 @@ def view_question_view(request,pk):
 @login_required(login_url='adminlogin')
 def delete_question_view(request,pk):
     question=models.Question.objects.get(id=pk)
+
+    # Remove from oracle
+    questionObj = Question()
+    questionObj.delete_by_id(pk)
+    questionObj.close()
+
     question.delete()
     return HttpResponseRedirect('/admin-view-question')
 
 @login_required(login_url='adminlogin')
 def admin_view_student_marks_view(request):
-    students= SMODEL.Student.objects.all()
-    return render(request,'quiz/admin_view_student_marks.html',{'students':students})
+    results= QMODEL.Result.objects.all()
+    return render(request,'quiz/admin_view_student_marks.html',{'results':results})
+
+
 
 @login_required(login_url='adminlogin')
 def admin_view_marks_view(request,pk):

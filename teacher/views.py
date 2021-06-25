@@ -201,12 +201,29 @@ def teacher_view_question_view(request):
 @login_required(login_url='teacherlogin')
 @user_passes_test(is_teacher)
 def see_question_view(request,pk):
-    questions=QMODEL.Question.objects.all()
-    return render(request,'teacher/see_question.html',{'questions':questions})
+    question=QMODEL.Question.objects.get(id=pk)
+    return render(request,'teacher/see_question.html',{'question':question})
 
 @login_required(login_url='teacherlogin')
 @user_passes_test(is_teacher)
 def remove_question_view(request,pk):
     question=QMODEL.Question.objects.get(id=pk)
+
+    # Remove from oracle
+    questionObj = Question()
+    questionObj.delete_by_id(pk)
+    questionObj.close()
+
     question.delete()
     return HttpResponseRedirect('/teacher/teacher-view-question')
+
+@login_required(login_url='teacherlogin')
+@user_passes_test(is_teacher)
+def teacher_view_student_marks_view(request):
+    t = request.user
+    res= QMODEL.Result.objects.all()
+    results = []
+    for r in res:
+        if r.exam.teacher.user == t:
+            results.append(r)
+    return render(request,'teacher/teacher_view_student_marks_view.html',{'results':results})
