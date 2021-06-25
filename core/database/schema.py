@@ -94,9 +94,34 @@ SQLS = [
             FOREIGN KEY(exam_id) REFERENCES {APP_NAME}_exams(id)
         ) 
         """
-    ]
-    
+    ],
+    [
+        'users_backup', 
+        f"""
+        CREATE TABLE {APP_NAME}_users_backup (
+            id NUMBER(10) NOT NULL PRIMARY KEY,
+            username VARCHAR2(20) NOT NULL,
+            password VARCHAR2(50) NOT NULL,
+            name VARCHAR2(30) NOT NULL, 
+            user_type NUMBER DEFAULT 2,
+            deleted_at TIMESTAMP NOT NULL
+        ) 
+        """
+    ],
 ]
+
+# Trigger for users table
+SQL_TRIGGER = f"""
+    CREATE OR REPLACE TRIGGER {APP_NAME}_users_backup_trigger
+    BEFORE DELETE ON {APP_NAME}_users
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO {APP_NAME}_users_backup 
+            (id, username, password, name, user_type, deleted_at)
+        values(:OLD.id, :OLD.username, :OLD.password, :OLD.name, :OLD.user_type, CURRENT_TIMESTAMP);
+    END;
+"""
+
 
 def schemaCreation():
     try:
@@ -110,11 +135,21 @@ def schemaCreation():
             try:
                 print(f"Creating {table[0]}...")
                 cursor.execute(table[1])
+                print('Done creating {table[0]}.')
             except cx_Oracle.Error as err:
                 error, = err.args
                 if err == 955:
                     continue
-                
+
+        try:
+            print(f"Creating users table trigger...")
+            cursor.execute(SQL_TRIGGER)
+            print('Done creating trigger')
+        except cx_Oracle.Error as err:
+            error, = err.args
+            print("Oracle-Error-Code:", error.code)
+            print("Oracle-Error-Message:", error.message)
+
     except cx_Oracle.Error as err:
         error, = err.args
         print("Oracle-Error-Code:", error.code)

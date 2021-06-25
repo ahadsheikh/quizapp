@@ -33,6 +33,8 @@ def teacher_signup_view(request):
             teacher=teacherForm.save(commit=False)
             teacher.user=user
             teacher.save()
+            my_teacher_group = Group.objects.get_or_create(name='TEACHER')
+            my_teacher_group[0].user_set.add(user)
 
             # Saving User Data in Oracle Database
             userObj = OracleUser()
@@ -57,10 +59,6 @@ def teacher_signup_view(request):
             teacherObj.create(teacherObjData)
             userObj.close()
             teacherObj.close()
-
-
-            my_teacher_group = Group.objects.get_or_create(name='TEACHER')
-            my_teacher_group[0].user_set.add(user)
         return HttpResponseRedirect('teacherlogin')
     return render(request,'teacher/teachersignup.html',context=mydict)
 

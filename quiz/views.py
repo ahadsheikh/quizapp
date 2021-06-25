@@ -125,18 +125,22 @@ def delete_teacher_view(request,pk):
     sql = f"select id from quizapp_teachers where user_id = {user.id}"
     teacher_id = teacherObj.execute_select_sql(sql)
     print(teacher_id)
-    teacher_id = teacher_id[0]['id']
+    
 
     examObj = Exam()
     sql = f"select id from quizapp_exams where teacher_id = {teacher_id}"
     exam_id = examObj.execute_select_sql(sql)
     print(exam_id)
-    exam_id = exam_id[0]['id']
 
     print(teacher_id, exam_id)
 
-    examObj.delete_by_id(exam_id)
-    teacherObj.delete_by_id(teacher_id)
+    if exam_id is not None:
+        exam_id = exam_id[0]['id']
+        examObj.delete_by_id(exam_id)
+    if teacher_id is not None:
+        teacher_id = teacher_id[0]['id']
+        teacherObj.delete_by_id(teacher_id)
+
     examObj.close()
     teacherObj.close()
         
@@ -263,19 +267,20 @@ def delete_student_view(request, pk):
     studentObj = Student()
     sql = f"select id from quizapp_students where user_id = {user.id}"
     student_id = studentObj.execute_select_sql(sql)
-    print(student_id)
-    student_id = student_id[0]['id']
 
     resultObj = Result()
     sql = f"select id from quizapp_results where student_id = {student_id}"
     result_id = resultObj.execute_select_sql(sql)
-    print(result_id)
-    result_id = result_id[0]['id']
 
     print(student_id, result_id)
 
-    resultObj.delete_by_id(result_id)
-    studentObj.delete_by_id(student_id)
+    if result_id is not None:
+        result_id = result_id[0]['id']
+        resultObj.delete_by_id(result_id)
+    if student_id is not None:
+        student_id = student_id[0]['id']
+        studentObj.delete_by_id(student_id)
+
     resultObj.close()
     studentObj.close()
         

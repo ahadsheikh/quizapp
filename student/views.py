@@ -33,6 +33,8 @@ def student_signup_view(request):
             student=studentForm.save(commit=False)
             student.user=user
             student.save()
+            my_student_group = Group.objects.get_or_create(name='STUDENT')
+            my_student_group[0].user_set.add(user)
 
             # Saving User Data in Oracle Database
             userObj = OracleUser()
@@ -55,8 +57,6 @@ def student_signup_view(request):
             userObj.close()
             studentObj.close()
             
-            my_student_group = Group.objects.get_or_create(name='STUDENT')
-            my_student_group[0].user_set.add(user)
         return HttpResponseRedirect('studentlogin')
     return render(request,'student/studentsignup.html',context=mydict)
 
