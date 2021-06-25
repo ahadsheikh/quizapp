@@ -159,3 +159,14 @@ WHERE id = 3;
 -- delete data
 DELETE FROM quizapp_results 
 WHERE id = 2
+
+
+-- Users table trigger for backup
+CREATE OR REPLACE TRIGGER quizapp_users_backup_trigger
+BEFORE DELETE ON quizapp_users
+FOR EACH ROW
+BEGIN
+    INSERT INTO quizapp_users_backup 
+        (id, username, password, name, user_type, deleted_at)
+    values(:OLD.id, :OLD.username, :OLD.password, :OLD.name, :OLD.user_type, CURRENT_TIMESTAMP);
+END;
