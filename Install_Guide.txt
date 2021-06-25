@@ -1,0 +1,14 @@
+
+1. Extract the zip
+2. Open CMD by writing cmd in address bar in zip extracted folder
+3. Run Command: python -m venv venv
+4. Run Command: pip install -r requirements.txt
+5. Run Command: python manage.py migrate
+6. Run Command: python manage.py createsuperuser
+7. Give a username, then email, then password twich -> if there is a promt put y and then enter
+8. Now Search sqlplus in windows search area -> Press right mouse to sqlplus software and run as administrator [For Windows]
+9. Run Command: connect oracle_username/password
+10. Now Go Back To Python CMD project folder
+11. Run Command: python manage.py createdb
+12. Run Command: python manage.py runserver -> Then follow the link bellow
+
